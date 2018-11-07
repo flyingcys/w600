@@ -74,7 +74,8 @@ path += [cwd + '/Platform/Inc',
 		cwd + '/Platform/Common/crypto',
 		cwd + '/Platform/Common/crypto/digest',
 		cwd + '/Platform/Common/crypto/math',
-		cwd + '/Platform/Common/crypto/symmetric']
+		cwd + '/Platform/Common/crypto/symmetric',
+		cwd + '/Platform/Boot/gcc']
 
 '''
 if GetDepend(['RT_USING_BSP_CMSIS']):
