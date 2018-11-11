@@ -89,7 +89,7 @@ __Vectors       DCD     __initial_sp    ; Top of Stack
                 DCD     DMA_Channel3_IRQHandler   ; DMA1 Channel 6
                 DCD     DMA_Channel4_7_IRQHandler   ; DMA1 Channel 7
                 DCD     DMA_BRUST_IRQHandler          ; ADC1 & ADC2
-                DCD     WM_I2C_IRQHandler  ; USB High Priority or CAN1 TX
+                DCD     I2C_IRQHandler  ; USB High Priority or CAN1 TX
                 DCD     ADC_IRQHandler ; USB Low  Priority or CAN1 RX0
                 DCD     SPI_LS_IRQHandler        ; CAN1 RX1
                 DCD     SPI_HS_IRQHandler        ; CAN1 SCE
@@ -194,7 +194,7 @@ Default_Handler PROC
                 EXPORT  DMA_Channel3_IRQHandler   [WEAK]
                 EXPORT  DMA_Channel4_7_IRQHandler [WEAK]
                 EXPORT  DMA_BRUST_IRQHandler       [WEAK]
-                EXPORT  WM_I2C_IRQHandler  		   [WEAK]
+                EXPORT  I2C_IRQHandler  		   [WEAK]
                 EXPORT  ADC_IRQHandler 			   [WEAK]
                 EXPORT  SPI_LS_IRQHandler          [WEAK]
                 EXPORT  SPI_HS_IRQHandler          [WEAK]
@@ -237,7 +237,7 @@ DMA_Channel2_IRQHandler
 DMA_Channel3_IRQHandler
 DMA_Channel4_7_IRQHandler
 DMA_BRUST_IRQHandler
-WM_I2C_IRQHandler
+I2C_IRQHandler
 ADC_IRQHandler
 SPI_LS_IRQHandler
 SPI_HS_IRQHandler
