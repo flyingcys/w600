@@ -19,6 +19,8 @@ src = Split("""
 	Platform/Drivers/flash/wm_fls_gd25qxx.c
 	Platform/Drivers/dma/wm_dma.c
 	Platform/Drivers/timer/wm_timer.c
+	Platform/Drivers/watchdog/wm_watchdog.c
+	Platform/Drivers/i2c/wm_i2c.c
 """)
 
 src += Split("""
