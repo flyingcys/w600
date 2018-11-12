@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author                Notes
- * 2017-01-18     aubrcool@qq.com       1st version
+ * 2018-11-9      fanwenl               1st version
  */
 #include <rtdevice.h>
 #include "wm_watchdog.h"
@@ -21,7 +21,7 @@ static rt_err_t wm_wdg_init(rt_watchdog_t *wdt)
 }
 static rt_err_t wm_wdg_control(rt_watchdog_t *wdt, int cmd, void *arg)
 {
-    rt_uint32_t timeout_us = 0;
+    uint64_t  timeout_us = 0;
     switch (cmd)
     {
     case RT_DEVICE_CTRL_WDT_SET_TIMEOUT:

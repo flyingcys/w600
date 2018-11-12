@@ -5,6 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
+ * 2018-11-9      fanwenl      1st version
  */
 #ifndef __DRV_I2C_H__
 #define __DRV_I2C_H__

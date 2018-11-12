@@ -5,6 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
+ * 2018-11-9      fanwenl      1st version
  */
 
 #include <rtdevice.h>
@@ -39,6 +40,7 @@ static rt_size_t wm_i2c_mst_xfer(struct rt_i2c_bus_device *bus,
 {
     struct wm_i2c_bus *wm_i2c;
     rt_size_t i;
+    uint8_t addr_msb;
     RT_ASSERT(bus != RT_NULL);
     wm_i2c = (struct wm_i2c_bus *) bus;
 
@@ -51,8 +53,19 @@ static rt_size_t wm_i2c_mst_xfer(struct rt_i2c_bus_device *bus,
     {
         if (wm_i2c->msg[i].flags & RT_I2C_RD)
         {
-            tls_i2c_write_byte((wm_i2c->msg[i].addr << 1) | wm_i2c->msg[i].flags, 1);   
-            tls_i2c_wait_ack();   
+            if(wm_i2c->msg[i].flags & RT_I2C_ADDR_10BIT)
+            {
+                addr_msb = (wm_i2c->msg[i].addr >> 7) | 0xF1; 
+                tls_i2c_write_byte(addr_msb, 1);   
+                tls_i2c_wait_ack();
+                tls_i2c_write_byte((uint8_t)wm_i2c->msg[i].addr, 1);   
+                tls_i2c_wait_ack();
+            }
+            else
+            {
+                tls_i2c_write_byte((wm_i2c->msg[i].addr << 1) | wm_i2c->msg[i].flags, 1);   
+                tls_i2c_wait_ack();
+            }
             while(wm_i2c->msg[i].len > 1)
             {
                 *wm_i2c->msg[i].buf++=tls_i2c_read_byte(1,0);	
@@ -63,8 +76,19 @@ static rt_size_t wm_i2c_mst_xfer(struct rt_i2c_bus_device *bus,
         }
         else
         {
-            tls_i2c_write_byte((wm_i2c->msg[i].addr << 1) | wm_i2c->msg[i].flags, 1); 
-            tls_i2c_wait_ack();
+            if(wm_i2c->msg[i].flags & RT_I2C_ADDR_10BIT)
+            {
+                addr_msb = ((wm_i2c->msg[i].addr >> 7) | 0xF0) & 0xFE; 
+                tls_i2c_write_byte(addr_msb, 1);   
+                tls_i2c_wait_ack();
+                tls_i2c_write_byte((uint8_t)wm_i2c->msg[i].addr, 1);   
+                tls_i2c_wait_ack();
+            }
+            else
+            {
+                tls_i2c_write_byte((wm_i2c->msg[i].addr << 1) | wm_i2c->msg[i].flags, 1);   
+                tls_i2c_wait_ack();
+            }
             while(wm_i2c->msg[i].len > 0)
             {
                 tls_i2c_write_byte(*wm_i2c->msg[i].buf, 0);
