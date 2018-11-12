@@ -63,7 +63,8 @@ typedef signed int           s32;
 typedef unsigned long long   u64;
 typedef long long                    s64;
 
-#if (GCC_COMPILE==0)
+//#ifndef __GNUC__                /* GNU GCC Compiler */
+/*
 #ifdef int32_t
 #undef int32_t
 #endif
@@ -159,5 +160,28 @@ typedef unsigned int mem_ptr_t;
 #ifndef IGNORE_PARAMETER
 #define IGNORE_PARAMETER(x)     ((x) = (x))
 #endif
+
+*/
+#ifdef err_t
+#undef err_t
+#endif
+typedef signed char err_t;
+
+#ifdef  TRUE
+#undef  TRUE
+#endif
+#define TRUE                     1
+
+#ifdef  FALSE
+#undef  FALSE
+#endif
+#define FALSE                    0
+
+#define true				1
+#define false				0
+
+#define WM_SUCCESS               0
+#define WM_FAILED               -1
+
 
 #endif

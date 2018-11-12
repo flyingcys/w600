@@ -56,12 +56,16 @@ src += Split("""
 	rtthread/utils/utils.c
 """)
 
+CPPDEFINES = ['WM_W600']
+
 # add for startup script 
 if rtconfig.CROSS_TOOL == 'keil':
     src = src + ['rtthread/startup/armcc/startup_venus.s',
     		'Platform/Boot/armcc/misc.c']
-
-
+elif rtconfig.CROSS_TOOL == 'gcc':
+    src = src + ['rtthread/startup/gcc/startup_ARMCM3.s',
+    		'Platform/Boot/armcc/misc.c']
+    CPPDEFINES += ['GCC_COMPILE=1']		
 path = [cwd,
 		cwd + '/Include',
 		cwd + '/Include/Driver',
@@ -92,7 +96,6 @@ elif rtconfig.CROSS_TOOL == 'keil':
 	LIB_PATH = [cwd + '/Lib/Wlan']
 
 
-CPPDEFINES = ['WM_W600']
 group = DefineGroup('Libraries', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES, LIBS = LIB, LIBPATH = LIB_PATH)
 
 Return('group')

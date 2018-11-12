@@ -24,7 +24,7 @@ typedef int32 psPool_t;
 #define _psTraceInt  _psTrace
 #define _psTraceStr  _psTrace
 #define psTraceBytes(tag, p, len);  TLS_DBGPRT_DUMP(p, len)
-#if 1
+#if 0
 #if (GCC_COMPILE==1)
 void _psError(char *msg)
 #else

@@ -31,7 +31,6 @@ int tls_os_get_type(void)
     
 }
 
-
 err_t tls_dhcp_stop(void)
 {
     rt_kprintf("===============%s %d\r\n", __FUNCTION__, __LINE__);
