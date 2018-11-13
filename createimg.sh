@@ -12,7 +12,7 @@
 #rm -f "../Bin/WM_VENUS.img"
 
 SOBJ=rtthread
-TARGET=rethread
+TARGET=rtthread
 _ENV_TARGET=""
 _REVI_TARGET=""
 
@@ -49,18 +49,18 @@ shell_do_cmd()
 
 main()
 {
-	shell_do_cmd cp ${SOBJ}.map ../../Bin
-	shell_do_cmd cp ${SOBJ}.bin ../../Bin
-	shell_do_cmd cd ../../Tools
+	shell_do_cmd cp ${SOBJ}.map Bin
+	shell_do_cmd cp ${SOBJ}.bin Bin
+	shell_do_cmd cd Libraries/Tools
 	
-	shell_do_cmd cp ../Bin/version.txt ../Bin/version_bk.txt
-	cp ../Bin/${SOBJ}.bin ../Bin/${SOBJ}.bin.bk
-	shell_do_cmd gzip -fv "../Bin/${SOBJ}.bin"
-	mv ../Bin/${SOBJ}.bin.bk ../Bin/${SOBJ}.bin
-	shell_do_cmd ./${MKIMG} "../Bin/${SOBJ}.bin" "../Bin/${TARGET}.img" 0 0 "../Bin/version.txt" 90000 10100
-	shell_do_cmd ./${MKIMG} "../Bin/${SOBJ}.bin.gz" "../Bin/${TARGET}_GZ.img" 0 1 "../Bin/version.txt" 90000 10100 "../Bin/${SOBJ}.bin" 
-	shell_do_cmd ./${MKIMG} "../Bin/${SOBJ}.bin" "../Bin/${TARGET}_SEC.img" 0 0 "../Bin/version.txt" 90000 10100
-	 ./${MKIMG_ALL} "../Bin/secboot.img" "../Bin/${TARGET}.img" "../Bin/${TARGET}.FLS"
+	shell_do_cmd cp ../../Bin/version.txt ../../Bin/version_bk.txt
+	cp ../../Bin/${SOBJ}.bin ../../Bin/${SOBJ}.bin.bk
+	shell_do_cmd python wm_gzip.py "../../Bin/${SOBJ}.bin"
+	mv ../../Bin/${SOBJ}.bin.bk ../../Bin/${SOBJ}.bin
+	shell_do_cmd ./${MKIMG} "../../Bin/${SOBJ}.bin" "../../Bin/${TARGET}.img" 0 0 "../../Bin/version.txt" 90000 10100
+	shell_do_cmd ./${MKIMG} "../../Bin/${SOBJ}.bin.gz" "../../Bin/${TARGET}_GZ.img" 0 1 "../../Bin/version.txt" 90000 10100 "../../Bin/${SOBJ}.bin" 
+	shell_do_cmd ./${MKIMG} "../../Bin/${SOBJ}.bin" "../../Bin/${TARGET}_SEC.img" 0 0 "../../Bin/version.txt" 90000 10100
+	 ./${MKIMG_ALL} "../../Bin/secboot.img" "../../Bin/${TARGET}.img" "../../Bin/${TARGET}.FLS"
 	#rm -rf "../Bin/${TARGET}.img"
 	#rm -rf "../Bin/${SOBJ}.bin.gz"
 }

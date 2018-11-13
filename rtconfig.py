@@ -42,7 +42,7 @@ if PLATFORM == 'gcc':
     DEVICE = ' -mcpu=cortex-m3 -mthumb -ffunction-sections -fdata-sections -march=armv7-m -mabi=aapcs'
     CFLAGS = DEVICE
     AFLAGS = ' -c' + DEVICE + ' -x assembler-with-cpp'
-    LFLAGS = DEVICE + ' -nostartfiles -Wl,--gc-sections,-Map=rtthread-w600.map,-cref,-u,Reset_Handler -T link_w600.ld'
+    LFLAGS = DEVICE + ' -nostartfiles -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,Reset_Handler -T link_w600.ld'
 
     CPATH = ''
     LPATH = ''
@@ -53,7 +53,9 @@ if PLATFORM == 'gcc':
     else:
         CFLAGS += ' -O2'
 
-    POST_ACTION = OBJCPY + ' -O binary -S -g -x -X -R .sbss -R .bss -R .reginfo -R .stack $TARGET rtthread.bin\n' + SIZE + ' $TARGET \n'
+    POST_ACTION = OBJCPY + ' -O binary -S -g -x -X -R .sbss -R .bss -R .reginfo -R .stack $TARGET rtthread.bin\n'
+#    POST_ACTION += os.system('sh createimg.sh')
+
 
 elif PLATFORM == 'armcc':
     # toolchains
