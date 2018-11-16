@@ -210,6 +210,15 @@ static __inline void spi_set_rx_trigger_level(u8 level)
 	tls_reg_write32(HR_SPI_MODECFG_REG, reg_val);
 }
 
+static __inline uint8_t spi_i2s_get_busy_status(void)
+{
+	u32 reg_val;
+
+	reg_val = tls_reg_read32(HR_SPI_STATUS_REG);
+
+	return SPI_IS_BUSY(reg_val);
+}
+
 static __inline void spi_set_timeout(u32 timeout, u8 enable)
 {
 	u32 reg_val;

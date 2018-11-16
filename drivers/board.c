@@ -78,17 +78,17 @@ void wm_gpio_config(void)
 	wm_uart1_tx_config(WM_IO_PB_12);	
 
 	/*MASTER SPI configuratioin*/
-	wm_spi_cs_config(WM_IO_PB_15);
-	wm_spi_ck_config(WM_IO_PB_16);
-	wm_spi_di_config(WM_IO_PB_17);
-	wm_spi_do_config(WM_IO_PB_18);
+//	wm_spi_cs_config(WM_IO_PB_15);
+//	wm_spi_ck_config(WM_IO_PB_16);
+//	wm_spi_di_config(WM_IO_PB_17);
+//	wm_spi_do_config(WM_IO_PB_18);
 }
 
 void wm6_peripheral_init(void)
 {
 #if (TLS_CONFIG_LS_SPI)	
-    tls_spi_init();
-    tls_spifls_init();
+    //tls_spi_init();
+    //tls_spifls_init();
 #endif
 }
 

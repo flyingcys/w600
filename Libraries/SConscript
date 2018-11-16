@@ -67,6 +67,7 @@ if rtconfig.CROSS_TOOL == 'keil':
 path = [cwd,
 		cwd + '/Include',
 		cwd + '/Include/Driver',
+		cwd + '/Platform/Drivers/spi',
 		cwd + '/Include/OS',
 		cwd + '/Include/Platform',
 		cwd + '/Include/OS',
