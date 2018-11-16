@@ -10,6 +10,8 @@
 #ifndef WM_WATCHDOG_H
 #define WM_WATCHDOG_H
 
+#include "wm_type_def.h"
+
 /**
  * @defgroup Driver_APIs Driver APIs
  * @brief Driver APIs
@@ -62,6 +64,56 @@ void tls_watchdog_init(u32 usec);
  * @note           None
  */
 void tls_sys_reset(void);
+/**
+ * @brief          This function is used to start watchdog
+ *
+ * @param[in]      None
+ *
+ * @return         None
+ *
+ * @note           None
+ */
+void tls_watchdog_start(void);
+/**
+ * @brief          This function is used to stop watchdog
+ *
+ * @param[in]      None
+ *
+ * @return         None
+ *
+ * @note           None
+ */
+void tls_watchdog_stop(void);
+/**
+ * @brief          This function is used to set watchdog time
+ *
+ * @param[in]      usec    microseconds
+ *
+ * @return         None
+ *
+ * @note           None
+ */
+void tls_watchdog_set_timeout(u32 usec);
+/**
+ * @brief          This function is used to get watchdog timeout time
+ *
+ * @param[in]      None
+ *
+ * @return         u32 microseconds
+ *
+ * @note           None
+ */
+u32 tls_watchdog_get_timeout(void);
+/**
+ * @brief          This function is used to get watchdog left time
+ *
+ * @param[in]      none
+ *
+ * @return         u32  microseconds
+ *
+ * @note           None
+ */
+u32 tls_watchdog_get_timeleft(void);
 
 /**
  * @}
