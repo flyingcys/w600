@@ -368,7 +368,7 @@ static void spi_complete(void *arg)
     tls_os_sem_release(sem);
 }
 
-static u32 spi_fill_txfifo(struct tls_spi_transfer *current_transfer,
+u32 spi_fill_txfifo(struct tls_spi_transfer *current_transfer,
                            u32 current_remaining_bytes)
 {
     u8 fifo_level;
@@ -456,7 +456,7 @@ static u32 spi_fill_txfifo(struct tls_spi_transfer *current_transfer,
     return (current_remaining_bytes - tx_remaining_bytes);
 }
 
-static u32 spi_get_rxfifo(struct tls_spi_transfer *current_transfer,
+u32 spi_get_rxfifo(struct tls_spi_transfer *current_transfer,
                           u32 current_remaining_bytes)
 {
     u8 fifo_level;
