@@ -41,7 +41,7 @@ void GPIOA_IRQHandler(void)
 
     if (found)
     {
-        tls_clr_gpio_irq_status(i);
+        tls_clr_gpio_irq_status((enum tls_io_name)i);
         if (NULL != gpio_context[i].callback)
             gpio_context[i].callback(gpio_context[i].arg);
     }
@@ -69,7 +69,7 @@ void GPIOB_IRQHandler(void)
 
     if (found)
     {
-        tls_clr_gpio_irq_status(i);
+        tls_clr_gpio_irq_status((enum tls_io_name)i);
         if (NULL != gpio_context[i].callback)
             gpio_context[i].callback(gpio_context[i].arg);
     }
