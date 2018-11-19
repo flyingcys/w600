@@ -21,7 +21,7 @@
 /* WM chip GPIO map*/
 static const rt_int16_t pins[] =
 {
-    __WM_PIN(0, __WM_PIN_DEFAULT),
+        __WM_PIN(0, __WM_PIN_DEFAULT),
 #if (WM60X_PIN_NUMBERS == 33)
         __WM_PIN(1, __WM_PIN_DEFAULT),
         __WM_PIN(2, __WM_PIN_DEFAULT),
@@ -56,7 +56,7 @@ static const rt_int16_t pins[] =
         __WM_PIN(31, WM_IO_PB_11),
         __WM_PIN(32, WM_IO_PB_12),
         __WM_PIN(33, __WM_PIN_DEFAULT),
-#elif(WM60X_PIN_NUMBERS == 69)
+#elif (WM60X_PIN_NUMBERS == 69)
         __WM_PIN(1, WM_IO_PB_19),
         __WM_PIN(2, WM_IO_PB_10),
         __WM_PIN(3, WM_IO_PB_21),
@@ -128,7 +128,7 @@ static const rt_int16_t pins[] =
         __WM_PIN(69, __WM_PIN_DEFAULT),
 #endif
 };
- 
+
 #define WM_PIN_NUM(items) (sizeof(items) / sizeof(items[0]))
 static rt_int16_t wm_get_pin(rt_base_t pin_index)
 {
@@ -137,7 +137,6 @@ static rt_int16_t wm_get_pin(rt_base_t pin_index)
     {
         gpio_pin = pins[pin_index];
     }
-		rt_kprintf("pin index:%d\r\n", gpio_pin);
     return gpio_pin;
 }
 
@@ -163,7 +162,6 @@ static void wm_pin_mode(struct rt_device *device, rt_base_t pin, rt_base_t mode)
     }
     else if (mode == PIN_MODE_OUTPUT)
     {
-				rt_kprintf("pin mode index:%d\r\n", gpio_pin);
         tls_gpio_cfg((enum tls_io_name)gpio_pin, WM_GPIO_DIR_OUTPUT, WM_GPIO_ATTR_PULLHIGH);
     }
     return;
@@ -178,7 +176,6 @@ static void wm_pin_write(struct rt_device *device, rt_base_t pin, rt_base_t valu
         return;
     }
     tls_gpio_write((enum tls_io_name)gpio_pin, value);
-		rt_kprintf("pin write index:%d\r\n", gpio_pin);
     return;
 }
 
@@ -190,7 +187,6 @@ static int wm_pin_read(struct rt_device *device, rt_base_t pin)
     {
         return PIN_LOW;
     }
-		rt_kprintf("pin read index:%d\r\n", gpio_pin);
     return tls_gpio_read((enum tls_io_name)gpio_pin);
 }
 
@@ -252,6 +248,7 @@ static rt_err_t wm_pin_irq_enable(struct rt_device *device, rt_base_t pin, rt_ui
     level = rt_hw_interrupt_disable();
     if (enabled == PIN_IRQ_ENABLE)
     {
+        tls_clr_gpio_irq_status((enum tls_io_name)gpio_pin);
         tls_gpio_irq_enable((enum tls_io_name)gpio_pin);
         rt_hw_interrupt_enable(level);
         return RT_EOK;
