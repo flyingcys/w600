@@ -41,10 +41,11 @@ void GPIOA_IRQHandler(void)
 
     if (found)
     {
+        tls_clr_gpio_irq_status(i);
         if (NULL != gpio_context[i].callback)
             gpio_context[i].callback(gpio_context[i].arg);
     }
-	return;
+    return;
 
 }
 
@@ -68,6 +69,7 @@ void GPIOB_IRQHandler(void)
 
     if (found)
     {
+        tls_clr_gpio_irq_status(i);
         if (NULL != gpio_context[i].callback)
             gpio_context[i].callback(gpio_context[i].arg);
     }
@@ -220,24 +222,21 @@ void tls_gpio_write(enum tls_io_name gpio_pin, u8 value)
  *
  * @note           None
  */
-void tls_gpio_irq_enable(enum tls_io_name gpio_pin, enum tls_gpio_irq_trig mode)
+void tls_gpio_irq_cfg(enum tls_io_name gpio_pin, enum tls_gpio_irq_trig mode)
 {
 	u32 reg;
 	u8  pin;
     u16 offset;
-    u8  vec_no;
 
     if (gpio_pin >= WM_IO_PB_00)
     {
         pin    = gpio_pin - WM_IO_PB_00;
         offset = TLS_IO_AB_OFFSET;
-        vec_no = GPIOB_INT;
     }
     else
     {
         pin    = gpio_pin;
         offset = 0;
-        vec_no = GPIO_INT;
     }
 
 //	TLS_DBGPRT_INFO("\r\ntls_gpio_int_enable gpio pin =%d,mode==%d\r\n",gpio_pin,mode);
@@ -291,15 +290,42 @@ void tls_gpio_irq_enable(enum tls_io_name gpio_pin, enum tls_gpio_irq_trig mode)
 			tls_reg_write32(HR_GPIO_IEV + offset, reg & (~(0x1 << pin)));	/* 0 low level trigger */
 			break;
 	}
+}
+/**
+ * @brief          This function is used to enable gpio interrupt
+ *
+ * @param[in]      gpio_pin    gpio pin num
+ * @param[in]      mode        interrupt trigger type
+ *
+ * @return         None
+ *
+ * @note           None
+ */
+void tls_gpio_irq_enable(enum tls_io_name gpio_pin)
+{
+	u32 reg;
+	u8  pin;
+    u16 offset;
+    u8  vec_no;
 
+    if (gpio_pin >= WM_IO_PB_00)
+    {
+        pin    = gpio_pin - WM_IO_PB_00;
+        offset = TLS_IO_AB_OFFSET;
+        vec_no = GPIOB_INT;
+    }
+    else
+    {
+        pin    = gpio_pin;
+        offset = 0;
+        vec_no = GPIO_INT;
+    }
 	reg = tls_reg_read32(HR_GPIO_IE + offset);
 	reg |= (0x1 << pin);
-//	TLS_DBGPRT_INFO("\nie ret=%x\n",reg);
 	tls_reg_write32(HR_GPIO_IE + offset, reg);		/* enable interrupt */
 
 	tls_irq_enable(vec_no);
 }
-
 /**
  * @brief          This function is used to disable gpio interrupt
  *

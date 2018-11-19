@@ -17,6 +17,13 @@
 #include "wm_cpu.h"
 #include "wm_crypto_hard.h"
 #include "wm_debug.h"
+#include "rtconfig.h"
+
+#if defined(SOC_W600_A8xx)
+    #define WM60X_PIN_NUMBERS 33
+#elif defined(SOC_W601_A8xx)
+    #define WM60X_PIN_NUMBERS 69
+#endif
 
 #ifdef __CC_ARM
 extern int Image$$RW_IRAM1$$ZI$$Limit;

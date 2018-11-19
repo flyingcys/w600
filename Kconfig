@@ -27,6 +27,15 @@ source "$RTT_DIR/Kconfig"
 source "$PKGS_DIR/Kconfig"
 source "$ENV_DIR/tools/scripts/cmds/Kconfig"
 
+choice
+    prompt "Device type"
+    default SOC_W600-A8xx
+    config SOC_W600_A8xx
+        bool "W600-A8xx"
+    config SOC_W601_A8xx
+        bool "W601-A8xx"
+endchoice 
+
 config RT_USING_UART0
     bool "Using RT_USING_UART0"
     default y

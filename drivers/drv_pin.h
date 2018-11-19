@@ -12,6 +12,7 @@
 
 #include "wm_type_def.h"
 #include "wm_io.h"
+#include "wm_gpio.h"
 
 int hw_gpio_init(void);
 
