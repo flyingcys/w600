@@ -23,7 +23,7 @@
 
 int rt_nor_flash_init(void)
 {
-    wm_spi_bus_attach_device("spi0","norspi", WM_IO_PB_15);
+    wm_spi_bus_attach_device("spi0","norspi", WM_SPI_CS_PIN);
 #ifdef RT_USING_W25QXX
     return w25qxx_init("flash0", "norspi");
 #elif defined(RT_USING_SFUD)

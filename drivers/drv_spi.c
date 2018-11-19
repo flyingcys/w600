@@ -158,6 +158,6 @@ int rt_hw_spi_bus_init(void)
     return RT_EOK;
 }
 
-INIT_DEVICE_EXPORT(rt_hw_spi_bus_init);
+INIT_PREV_EXPORT(rt_hw_spi_bus_init);
 
 #endif

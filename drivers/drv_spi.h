@@ -21,6 +21,7 @@
 #define WM_SPI_CLK      WM_IO_PB_16
 #define WM_SPI_MOSI     WM_IO_PB_18
 #define WM_SPI_MISO     WM_IO_PB_17
+#define WM_SPI_CS_PIN   45         /*PB15*/
 
 struct wm_sw_spi_cs
 {
