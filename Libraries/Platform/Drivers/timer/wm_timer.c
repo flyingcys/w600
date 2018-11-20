@@ -15,16 +15,6 @@
 
 #include "tls_common.h"
 
-enum tls_timer_id{
-    TLS_TIMER_ID_0 = 0,	// used by delay (sleep, msleep, usleep)
-    TLS_TIMER_ID_1,
-    TLS_TIMER_ID_2,
-    TLS_TIMER_ID_3,
-    TLS_TIMER_ID_4,
-    TLS_TIMER_ID_5,
-    TLS_TIMER_ID_MAX
-};
-
 #define TIM0_USED_BY_DELAY		0
 
 struct timer_irq_context {
@@ -35,7 +25,7 @@ struct timer_irq_context {
 static struct timer_irq_context timer_context[TLS_TIMER_ID_MAX] = {{0,0}};
 static u8 wm_timer_bitmap = 0;
 
-static void timer_clear_irq(int timer_id)
+void timer_clear_irq(int timer_id)
 {
     tls_reg_write32(HR_TIMER0_5_CSR, tls_reg_read32(HR_TIMER0_5_CSR)|TLS_TIMER_INT_CLR(timer_id));
 }
@@ -54,29 +44,29 @@ static void timer_irq_callback(void *p)
     return;
 }
 
-void TIM0_IRQHandler(void)
+__weak void TIM0_IRQHandler(void)
 {
     timer_irq_callback((void *)TLS_TIMER_ID_0);
 }
-void TIM1_IRQHandler(void)
+__weak void TIM1_IRQHandler(void)
 {
-    timer_irq_callback((void *)TLS_TIMER_ID_1);
+   timer_irq_callback((void *)TLS_TIMER_ID_1);
 }
-void TIM2_IRQHandler(void)
+__weak void TIM2_IRQHandler(void)
 {
-    timer_irq_callback((void *)TLS_TIMER_ID_2);
+   timer_irq_callback((void *)TLS_TIMER_ID_2);
 }
-void TIM3_IRQHandler(void)
+__weak void TIM3_IRQHandler(void)
 {
-    timer_irq_callback((void *)TLS_TIMER_ID_3);
+   timer_irq_callback((void *)TLS_TIMER_ID_3);
 }
-void TIM4_IRQHandler(void)
+__weak void TIM4_IRQHandler(void)
 {
-    timer_irq_callback((void *)TLS_TIMER_ID_4);
+   timer_irq_callback((void *)TLS_TIMER_ID_4);
 }
-void TIM5_IRQHandler(void)
+__weak void TIM5_IRQHandler(void)
 {
-    timer_irq_callback((void *)TLS_TIMER_ID_5);
+   timer_irq_callback((void *)TLS_TIMER_ID_5);
 }
 
 /**
@@ -93,18 +83,19 @@ void TIM5_IRQHandler(void)
  * so can not operate the critical data in the callback fuuction,
  * recommendation to send messages to other tasks to operate it.
  */
-u8 tls_timer_create(struct tls_timer_cfg *cfg)
+u8 tls_timer_create(struct tls_timer_cfg *cfg, u8 timer_id)
 {
     u8 i;
     int timer_csr;
 
-    for (i = TLS_TIMER_ID_1; i < TLS_TIMER_ID_MAX; i++)
-    {
-        if (!(wm_timer_bitmap & BIT(i)))
-            break;
-    }
+    // for (i = TLS_TIMER_ID_1; i < TLS_TIMER_ID_MAX; i++)
+    // {
+    //     if (!(wm_timer_bitmap & BIT(i)))
+    //         break;
+    // }
 
-    if (TLS_TIMER_ID_MAX == i)
+    i = timer_id;
+    if (timer_id >= TLS_TIMER_ID_MAX )
         return WM_TIMER_ID_INVALID;
 
     wm_timer_bitmap  |= BIT(i);
@@ -134,7 +125,6 @@ u8 tls_timer_create(struct tls_timer_cfg *cfg)
 
     return i;
 }
-
 /**
  * @brief          This function is used to start the timer
  *
@@ -196,6 +186,27 @@ void tls_timer_change(u8 timer_id, u32 newtime)
     tls_timer_start(timer_id);
 
     return;
+}
+
+/**
+ * @brief           This function is used to set timer mode
+ *
+ * @param[in]      	timer_id    timer id[0~5]
+ *
+ * @retval         	None
+ *
+ * @note            None
+ */
+void tls_timer_set_mode(u8 timer_id, bool repeat)
+{
+    int timer_csr;
+    timer_csr = tls_reg_read32(HR_TIMER0_5_CSR);
+    if (!repeat)
+        timer_csr |=  TLS_TIMER_ONE_TIME(timer_id);
+    else
+        timer_csr &= ~(TLS_TIMER_ONE_TIME(timer_id));
+
+    tls_reg_write32(HR_TIMER0_5_CSR, timer_csr | TLS_TIMER_INT_CLR(timer_id));
 }
 
 /**

@@ -36,6 +36,20 @@ choice
         bool "W601-A8xx"
 endchoice 
 
+menu "HW Timers"
+    depends on RT_USING_HWTIMER
+    config USING_HW_TIMER1
+        bool "USING_HW_TIMER1"
+    config USING_HW_TIMER2
+        bool "USING_HW_TIMER2"
+    config USING_HW_TIMER3
+        bool "USING_HW_TIMER3"
+    config USING_HW_TIMER4
+        bool "USING_HW_TIMER4"
+    config USING_HW_TIMER5
+        bool "USING_HW_TIMER5"
+endmenu
+
 config RT_USING_UART0
     bool "Using RT_USING_UART0"
     default y
