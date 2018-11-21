@@ -7,6 +7,7 @@ objs = []
 src = Split('''
 	board.c
 	drv_uart.c
+    pin_map.c
 	''')
 
 if GetDepend(['RT_USING_LWIP']):
