@@ -10,6 +10,9 @@ src = Split('''
     pin_map.c
 	''')
 
+if GetDepend(['RT_USING_ADC']):
+	src += ['drv_adc.c']
+
 if GetDepend(['RT_USING_LWIP']):
 	src += ['drv_wifi.c']
 		

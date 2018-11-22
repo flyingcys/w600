@@ -37,18 +37,41 @@ choice
         bool "W601-A8xx"
 endchoice
 
+if  RT_USING_ADC && SOC_W601_A8xx
+    menu "ADC Channel Config"
+        config USING_CPU_TEMP
+            bool "Enable CPU Temperature"
+        config USING_ADC_CH1
+            bool "Enable ADC Channel 1"
+        config USING_ADC_CH2
+            bool "Enable ADC Channel 2"
+        config USING_ADC_CH3
+            bool "Enable ADC Channel 3"
+        config USING_ADC_CH4
+            bool "Enable ADC Channel 4"
+        config USING_ADC_CH5
+            bool "Enable ADC Channel 5"
+        config USING_ADC_CH6
+            bool "Enable ADC Channel 6"
+        config USING_ADC_CH7
+            bool "Enable ADC Channel 7"
+        config USING_ADC_CH8
+            bool "Enable ADC Channel 8"
+    endmenu
+endif
+
 if  RT_USING_HWTIMER
     menu "HW Timers Config"
         config USING_HW_TIMER1
-            bool "USING_HW_TIMER1"
+            bool "Enable hw timer1"
         config USING_HW_TIMER2
-            bool "USING_HW_TIMER2"
+            bool "Enable hw timer2"
         config USING_HW_TIMER3
-            bool "USING_HW_TIMER3"
+            bool "Enable hw timer3"
         config USING_HW_TIMER4
-            bool "USING_HW_TIMER4"
+            bool "Enable hw timer4"
         config USING_HW_TIMER5
-            bool "USING_HW_TIMER5"
+            bool "Enable hw timer5"
     endmenu
 endif
 

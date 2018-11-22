@@ -22,6 +22,7 @@ src = Split("""
 	Platform/Drivers/watchdog/wm_watchdog.c
 	Platform/Drivers/i2c/wm_i2c.c
 	Platform/Drivers/pwm/wm_pwm.c
+	Platform/Drivers/adc/wm_adc.c
 """)
 
 src += Split("""
