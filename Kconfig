@@ -119,6 +119,40 @@ if RT_USING_PWM
             endif
     endmenu
 endif
+
+if RT_USING_I2C
+    menu "WM HW I2C Config"
+        config WM_HW_I2C_FREQ
+            int "wm hardware I2C frequency(HZ)"
+            default 200000
+        config WM_I2C_DAT_PIN
+            int "wm I2C DAT pin number"
+            default 19
+        config WM_I2C_SCL_PIN
+            int "wm I2C SCL pin number"
+            default 18
+    endmenu
+endif
+
+if RT_USING_SPI
+    menu "SPI Bus Pin Config"
+        config WM_SPI_CK_PIN
+            int "wm SPI CK pin number"
+            default 21
+        config WM_SPI_DO_PIN
+            int "wm SPI DO pin number"
+            default 23
+        config WM_SPI_DI_PIN
+            int "wm SPI DI pin number"
+            default 22
+        if RT_USING_SFUD || RT_USING_W25QXX
+            config SPI_Flash_CS_PIN
+                int "SPI Flash CS pin number"
+                default 20
+        endif
+    endmenu
+endif
+
 endmenu
 
 config RT_USING_UART0

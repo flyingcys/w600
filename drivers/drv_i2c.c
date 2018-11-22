@@ -10,7 +10,10 @@
 
 #include <rtdevice.h>
 #include <rtthread.h>
+#include <board.h>
+
 #include "drv_i2c.h"
+#include "pin_map.h"
 
 #ifdef RT_USING_I2C
 
@@ -132,10 +135,20 @@ void WM_I2C_IRQHandler(void)
 
 int rt_hw_i2c_init(void)
 {
-    wm_i2c_scl_config(WM_HW_I2C_SCL);
-    wm_i2c_sda_config(WM_HW_I2C_SDA);
-
-    tls_i2c_init(I2C_HW_FREQ);
+    rt_int16_t gpio_pin;
+    
+    gpio_pin = wm_get_pin(WM_I2C_SCL_PIN);
+    if(gpio_pin > 0)
+    {
+        wm_i2c_scl_config((enum tls_io_name)gpio_pin);
+    }
+    gpio_pin = wm_get_pin(WM_I2C_DAT_PIN);
+    if(gpio_pin > 0)
+    {
+        wm_i2c_sda_config((enum tls_io_name)gpio_pin);
+    }
+    
+    tls_i2c_init(WM_HW_I2C_FREQ);
         
     wm_i2c.parent.ops = (void *)&wm_i2c_ops;
     rt_i2c_bus_device_register(&wm_i2c.parent, "i2c");

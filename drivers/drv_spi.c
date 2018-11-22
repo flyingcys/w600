@@ -8,7 +8,10 @@
  * 2018-11-12      fanwenl      1st version
  */
 
+#include <board.h>
+
 #include "drv_spi.h"
+#include "pin_map.h"
 
 #ifdef RT_USING_SPI
 
@@ -148,9 +151,23 @@ struct rt_spi_bus wm_spi_bus;
 
 int rt_hw_spi_bus_init(void)
 {
-    wm_spi_ck_config(WM_SPI_CLK);
-    wm_spi_di_config(WM_SPI_MISO);
-    wm_spi_do_config(WM_SPI_MOSI);
+    rt_int16_t gpio_pin;
+    
+    gpio_pin = wm_get_pin(WM_SPI_CK_PIN);
+    if(gpio_pin > 0)
+    {
+        wm_spi_ck_config((enum tls_io_name)gpio_pin);
+    }
+    gpio_pin = wm_get_pin(WM_SPI_DI_PIN);
+    if(gpio_pin > 0)
+    {
+        wm_spi_di_config((enum tls_io_name)gpio_pin);
+    }
+    gpio_pin = wm_get_pin(WM_SPI_DO_PIN);
+    if(gpio_pin > 0)
+    {
+        wm_spi_do_config((enum tls_io_name)gpio_pin);
+    }
 
     wm_spi_bus.parent.user_data = &spi;
     rt_spi_bus_register(&wm_spi_bus, "spi0", &wm_spi_ops);
