@@ -5,16 +5,15 @@
  *
  * Change Logs:
  * Date           Author       Notes
+ * 2018-11-22      fanwenl      1st version
  */
 
-#ifndef DRV_GPIO_H__
-#define DRV_GPIO_H__
+#ifndef __DRV_PWM_H__
+#define __DRV_PWM_H__
 
-#include "wm_type_def.h"
-#include "wm_io.h"
-#include "wm_gpio.h"
+#include "wm_pwm.h"
+#include "wm_gpio_afsel.h"
 
-int hw_gpio_init(void);
+int wm_pwm_init(void);
 
 #endif
-

@@ -863,4 +863,49 @@ int tls_pwm_init(u8 channel,u32 freq, u8 duty, u8 pnum)
 
     return 	ret;
 }
+/**
+ * @brief          This function is used to get pwm info
+ *
+ * @param[in]      channel    pwm channel, range from 0 to 4
+ * @param[in]      freq       is a pointer to frequency, freq range from 1 to 156250
+ * @param[in]      duty       is a pointer to duty radio, duty range from 0 to 255
+ *
+ * @retval         None
+ */
+void tls_pwm_get_info(u8 channel, u32 *freq, u8 *duty)
+{
+    tls_sys_clk sysclk;
+    u32 temp = 0;
+    
+    if(channel > (PWM_CHANNEL_MAX_NUM - 1))
+        return;
+
+    tls_sys_clk_get(&sysclk);
+
+    if (4 == channel)
+    {
+        temp = tls_reg_read32(HR_PWM_CH4_REG1) & 0xFFFF0000;
+        temp = (temp >> 16);
+    }
+    else
+    {
+        temp = tls_reg_read32(HR_PWM_CLKDIV01 + (channel / 2) * 4) & (0xFFFF << ((channel % 2) * 16));
+        temp = (temp >> ((channel % 2) * 16));
+    }
+    
+    *freq = (sysclk.apbclk*UNIT_MHZ) / (temp * 256);
+
+    if (4 == channel)
+    {
+        temp = tls_reg_read32(HR_PWM_CH4_REG2) & 0x0000FF00;
+        temp = (temp >> 8);
+    }
+    else
+    {
+        temp = tls_reg_read32(HR_PWM_CMPDAT) & (0xFF << channel * 8);
+        temp = (temp >> (channel * 8));
+    }
+
+    *duty = temp;
+}
 

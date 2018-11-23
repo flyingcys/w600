@@ -13,10 +13,7 @@
 #include <rtdevice.h>
 #include "wm_i2c.h"
 #include "wm_io.h"
-
-#define I2C_HW_FREQ		(200000)
-#define WM_HW_I2C_SCL   WM_IO_PB_21
-#define WM_HW_I2C_SDA   WM_IO_PB_22
+#include "wm_gpio_afsel.h"
 
 struct wm_i2c_bus
 {
@@ -27,4 +24,6 @@ struct wm_i2c_bus
     volatile rt_uint32_t dptr;
     rt_uint32_t wait_stop;
 };
+
+int rt_hw_i2c_init(void);
 #endif

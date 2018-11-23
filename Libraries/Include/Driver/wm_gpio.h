@@ -92,7 +92,19 @@ void tls_gpio_write(enum tls_io_name gpio_pin, u8 value);
  *
  * @note           None
  */
-void tls_gpio_irq_enable(enum tls_io_name gpio_pin, enum tls_gpio_irq_trig mode);
+void tls_gpio_irq_cfg(enum tls_io_name gpio_pin, enum tls_gpio_irq_trig mode);
+
+/**
+ * @brief          This function is used to enable gpio interrupt
+ *
+ * @param[in]      gpio_pin    gpio pin num
+ * @param[in]      mode        interrupt trigger type
+ *
+ * @return         None
+ *
+ * @note           None
+ */
+void tls_gpio_irq_enable(enum tls_io_name gpio_pin);
 
 
 /**
@@ -149,6 +161,9 @@ void tls_clr_gpio_irq_status(enum tls_io_name gpio_pin);
 void tls_gpio_isr_register(enum tls_io_name gpio_pin,
                            tls_gpio_irq_callback callback,
                            void *arg);
+
+void GPIOB_IRQHandler(void);
+void GPIOA_IRQHandler(void);
 
 #endif /* end of WM_GPIO_H */
 

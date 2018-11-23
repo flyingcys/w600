@@ -15,6 +15,16 @@
 #define TIMER_MS_UNIT_FLAG		1
 #define TIMER_US_UNIT_FLAG		0
 
+enum tls_timer_id{
+    TLS_TIMER_ID_0 = 0,	// used by delay (sleep, msleep, usleep)
+    TLS_TIMER_ID_1,
+    TLS_TIMER_ID_2,
+    TLS_TIMER_ID_3,
+    TLS_TIMER_ID_4,
+    TLS_TIMER_ID_5,
+    TLS_TIMER_ID_MAX
+};
+
 /** timer interrupt callback */
 typedef void (*tls_timer_irq_callback)(void *arg);
 
@@ -67,7 +77,7 @@ struct tls_timer_cfg {
  * so do not operate the critical data in the callback fuuction.
  * Sending messages to other tasks to handle is recommended.
  */
-u8 tls_timer_create(struct tls_timer_cfg *cfg);
+u8 tls_timer_create(struct tls_timer_cfg *cfg, u8 timer_id);
 
 /**
  * @brief          This function is used to start a timer
@@ -103,7 +113,16 @@ void tls_timer_stop(u8 timer_id);
  * @note            If the timer does not start, this function will start the timer
  */
 void tls_timer_change(u8 timer_id, u32 newtime);
-
+/**
+ * @brief           This function is used to set timer mode
+ *
+ * @param[in]      	timer_id    timer id[0~5]
+ *
+ * @retval         	None
+ *
+ * @note            None
+ */
+void tls_timer_set_mode(u8 timer_id, bool repeat);
 /**
  * @brief          This function is used to delete a timer
  *
@@ -126,6 +145,8 @@ void tls_timer_destroy(u8 timer_id);
  * @note           None
  */
 int tls_delay_via_timer(unsigned int timeout, unsigned int m_flag);
+
+void timer_clear_irq(int timer_id);
 
 /**
  * @}

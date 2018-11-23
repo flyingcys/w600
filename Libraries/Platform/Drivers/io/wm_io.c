@@ -184,7 +184,7 @@ static void io_cfg_option6(enum tls_io_name name)
 
     tls_reg_write32(HR_GPIO_AF_SEL  + offset, tls_reg_read32(HR_GPIO_AF_SEL  + offset) & (~BIT(pin)));  /* disable gpio function */
     tls_reg_write32(HR_GPIO_DIR     + offset, tls_reg_read32(HR_GPIO_DIR     + offset) & (~BIT(pin)));
-    tls_reg_write32(HR_GPIO_PULL_EN + offset, tls_reg_read32(HR_GPIO_PULL_EN + offset) & (~BIT(pin)));
+    //tls_reg_write32(HR_GPIO_PULL_EN + offset, tls_reg_read32(HR_GPIO_PULL_EN + offset) & (~BIT(pin)));
 
     return;
 }

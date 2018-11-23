@@ -95,7 +95,7 @@ __Vectors       DCD     __initial_sp    ; Top of Stack
                 DCD     SPI_HS_IRQHandler        ; CAN1 SCE
                 DCD     UART0_IRQHandler         ; EXTI Line 9..5
                 DCD     UART1_IRQHandler        ; TIM1 Break
-                DCD     GPIOA_IRQHandler         		; TIM1 Update
+                DCD     WM_GPIOA_IRQHandler         		; TIM1 Update
                 DCD     TIM0_IRQHandler    ; TIM1 Trigger and Commutation
                 DCD     TIM1_IRQHandler         ; TIM1 Capture Compare
                 DCD     TIM2_IRQHandler            ; TIM2
@@ -110,7 +110,7 @@ __Vectors       DCD     __initial_sp    ; Top of Stack
 				DCD		PMU_RTC_IRQHandler
 				DCD		RSA_IRQHandler
 		        DCD     CRYPTION_IRQHandler  			;CRYPTION
-		        DCD     GPIOB_IRQHandler          		; GBIOB
+		        DCD     WM_GPIOB_IRQHandler          		; GBIOB
                 DCD     UART2_IRQHandler          	; USART1
 				DCD		0;
 __Vectors_End
@@ -200,7 +200,7 @@ Default_Handler PROC
                 EXPORT  SPI_HS_IRQHandler          [WEAK]
 ;                EXPORT  UART0_IRQHandler           [WEAK]
 ;                EXPORT  UART1_IRQHandler           [WEAK]
-                EXPORT  GPIOA_IRQHandler            [WEAK]
+                EXPORT  WM_GPIOA_IRQHandler            [WEAK]
 ;                EXPORT  TIM0_IRQHandler            [WEAK]
 ;                EXPORT  TIM1_IRQHandler            [WEAK]
 ;                EXPORT  TIM2_IRQHandler            [WEAK]
@@ -215,7 +215,7 @@ Default_Handler PROC
 				EXPORT  PMU_6IRQHandler             [WEAK]
                 EXPORT  RSA_IRQHandler        		[WEAK]	
                 EXPORT  CRYPTION_IRQHandler        	[WEAK]
-				EXPORT  GPIOB_IRQHandler        	[WEAK]
+				EXPORT  WM_GPIOB_IRQHandler        	[WEAK]
                	EXPORT	UART2_IRQHandler		   	[WEAK]
 SDIO_RX_IRQHandler
 SDIO_TX_IRQHandler
@@ -243,7 +243,7 @@ SPI_LS_IRQHandler
 SPI_HS_IRQHandler
 ;UART0_IRQHandler         
 ;UART1_IRQHandler        
-GPIOA_IRQHandler         
+WM_GPIOA_IRQHandler         
 ;TIM0_IRQHandler    
 ;TIM1_IRQHandler       
 ;TIM2_IRQHandler          
@@ -258,7 +258,7 @@ I2S_IRQHandler
 PMU_6IRQHandler      
 RSA_IRQHandler
 CRYPTION_IRQHandler  
-GPIOB_IRQHandler        
+WM_GPIOB_IRQHandler        
 UART2_IRQHandler
                 B       .
 

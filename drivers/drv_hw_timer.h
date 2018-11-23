@@ -5,16 +5,13 @@
  *
  * Change Logs:
  * Date           Author       Notes
+ * 2018-11-19      fanwenl      1st version
  */
+#ifndef __DRV_HWTIMER_H__
+#define __DRV_HWTIMER_H__
+#include "wm_timer.h"
 
-#ifndef DRV_GPIO_H__
-#define DRV_GPIO_H__
 
-#include "wm_type_def.h"
-#include "wm_io.h"
-#include "wm_gpio.h"
-
-int hw_gpio_init(void);
+int wm_hwtimer_init(void);
 
 #endif
-
