@@ -115,7 +115,7 @@ W600芯片是[联盛德微电子](http://www.winnermicro.com)推出的一款嵌�
 
 ### 3.1 运行结果
 
-如果编译 & 烧写无误，会在串口2*上看到RT-Thread的启动logo信息：
+如果编译 & 烧写无误，会在串口0*上看到RT-Thread的启动logo信息：
 
 ```bash
  \ | /
@@ -127,7 +127,7 @@ W600芯片是[联盛德微电子](http://www.winnermicro.com)推出的一款嵌�
 *默认串口UART0 波特率115200
 
 
-## 4. 驱动支持情况及计划
+## 4. 驱动支持情况
 
 | 驱动       | 支持情况 | 备注                                  |
 | ---------- | :------: | :--------------------------:         |
@@ -137,7 +137,7 @@ W600芯片是[联盛德微电子](http://www.winnermicro.com)推出的一款嵌�
 | SPI Flash  | 支持     | 支持W25QXX、SFUD                      |
 | WDT        | 支持     | 支持                                  |
 | I2c        | 支持     | 硬件I2C                               |
-| RTC        | 支持     | RTC时钟自动配置                        |
+| RTC        | 支持     | 支持ntp同步                           |
 | ADC        | 支持     | 8 channel ADC采集 CPU温度采集          |
 | PWM        | 支持     | 5 channel PWM输出 (3Hz~160kHz)        | 
 | Timer      | 支持     | 5个Timers独立工作，支持1M(默认)频率     |
@@ -172,4 +172,3 @@ W600芯片是[联盛德微电子](http://www.winnermicro.com)推出的一款嵌�
   [3]: mailto:294102238@qq.com]
   [4]: https://github.com/fanwenl
   [5]: mailto:fanwenl_g@126.com]
-`
