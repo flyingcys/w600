@@ -10,6 +10,15 @@
 #ifndef __WM_TYPE_DEF_H__
 #define __WM_TYPE_DEF_H__
 
+#if  defined ( __GNUC__ )
+  #ifndef __weak
+    #define __weak   __attribute__((weak))
+  #endif /* __weak */
+  #ifndef __packed
+    #define __packed __attribute__((__packed__))
+  #endif /* __packed */
+#endif /* __GNUC__ */
+
 #ifdef bool
 #undef bool
 #endif
