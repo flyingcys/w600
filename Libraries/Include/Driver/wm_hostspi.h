@@ -292,5 +292,8 @@ void tls_spi_trans_type(u8 type);
 /**
  * @}
  */
-
+u32 spi_fill_txfifo(struct tls_spi_transfer *current_transfer,
+                           u32 current_remaining_bytes);
+u32 spi_get_rxfifo(struct tls_spi_transfer *current_transfer,
+                          u32 current_remaining_bytes);
 #endif /* WM_HOST_SPI_H */

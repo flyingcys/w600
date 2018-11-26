@@ -10,6 +10,10 @@
 #ifndef DRV_RTC_H__
 #define DRV_RTC_H__
 
+#include "wm_regs.h"
+#include "wm_irq.h"
+#include "tls_common.h"
+
 int rt_hw_rtc_init(void);
 
 #endif

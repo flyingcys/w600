@@ -27,6 +27,134 @@ source "$RTT_DIR/Kconfig"
 source "$PKGS_DIR/Kconfig"
 source "$ENV_DIR/tools/scripts/cmds/Kconfig"
 
+menu "W60x Device config"
+choice
+    prompt "Device type"
+    default SOC_W600-A8xx
+    config SOC_W600_A8xx
+        bool "W600-A8xx"
+    config SOC_W601_A8xx
+        bool "W601-A8xx"
+endchoice
+
+if  RT_USING_ADC && SOC_W601_A8xx
+    menu "ADC Channel Config"
+        config USING_CPU_TEMP
+            bool "Enable CPU Temperature"
+        config USING_ADC_CH1
+            bool "Enable ADC Channel 1"
+        config USING_ADC_CH2
+            bool "Enable ADC Channel 2"
+        config USING_ADC_CH3
+            bool "Enable ADC Channel 3"
+        config USING_ADC_CH4
+            bool "Enable ADC Channel 4"
+        config USING_ADC_CH5
+            bool "Enable ADC Channel 5"
+        config USING_ADC_CH6
+            bool "Enable ADC Channel 6"
+        config USING_ADC_CH7
+            bool "Enable ADC Channel 7"
+        config USING_ADC_CH8
+            bool "Enable ADC Channel 8"
+    endmenu
+endif
+
+if  RT_USING_HWTIMER
+    menu "HW Timers Config"
+        config USING_HW_TIMER1
+            bool "Enable hw timer1"
+        config USING_HW_TIMER2
+            bool "Enable hw timer2"
+        config USING_HW_TIMER3
+            bool "Enable hw timer3"
+        config USING_HW_TIMER4
+            bool "Enable hw timer4"
+        config USING_HW_TIMER5
+            bool "Enable hw timer5"
+    endmenu
+endif
+
+if RT_USING_PWM
+    menu "PWM Channel Config"
+        config USING_PWM_CH1
+            bool "Enable pwm channel 1"
+            default n
+            if USING_PWM_CH1
+                config WM_PWM_CH1_PIN
+                int "wm pwm channel 1 pin number"
+                default 0
+            endif
+        config USING_PWM_CH2
+            bool "Enable pwm channel 2"
+            default n
+            if USING_PWM_CH2
+                config WM_PWM_CH2_PIN
+                int "wm pwm channel 2 pin number"
+                default 0
+            endif
+        config USING_PWM_CH3
+            bool "Enable pwm channel 3"
+            default n
+            if USING_PWM_CH3
+                config WM_PWM_CH3_PIN
+                int "wm pwm channel 3 pin number"
+                default 0
+            endif
+        config USING_PWM_CH4
+            bool "Enable pwm channel 4"
+            default n
+            if USING_PWM_CH4
+                config WM_PWM_CH4_PIN
+                int "wm pwm channel 4 pin number"
+                default 0
+            endif
+        config USING_PWM_CH5
+            bool "Enable pwm channel 5"
+            default n
+            if USING_PWM_CH5
+                config WM_PWM_CH5_PIN
+                int "wm pwm channel 5 pin number"
+                default 0
+            endif
+    endmenu
+endif
+
+if RT_USING_I2C
+    menu "WM HW I2C Config"
+        config WM_HW_I2C_FREQ
+            int "wm hardware I2C frequency(HZ)"
+            default 200000
+        config WM_I2C_DAT_PIN
+            int "wm I2C DAT pin number"
+            default 19
+        config WM_I2C_SCL_PIN
+            int "wm I2C SCL pin number"
+            default 18
+    endmenu
+endif
+
+if RT_USING_SPI
+    menu "SPI Bus Pin Config"
+        config WM_SPI_CK_PIN
+            int "wm SPI CK pin number"
+            default 21
+        config WM_SPI_DO_PIN
+            int "wm SPI DO pin number"
+            default 23
+        config WM_SPI_DI_PIN
+            int "wm SPI DI pin number"
+            default 22
+        if RT_USING_SFUD || RT_USING_W25QXX
+            config SPI_Flash_CS_PIN
+                int "SPI Flash CS pin number"
+                default 20
+        endif
+    endmenu
+endif
+
+endmenu
+
 config RT_USING_UART0
     bool "Using RT_USING_UART0"
     default y

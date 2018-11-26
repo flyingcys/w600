@@ -388,7 +388,16 @@ int tls_pwm_init(u8 channel,u32 freq, u8 duty, u8 pnum);
  * @note           None
  */
 int tls_pwm_stop(u8 channel);
-
+/**
+ * @brief          This function is used to get pwm info
+ *
+ * @param[in]      channel    pwm channel, range from 0 to 4
+ * @param[in]      freq       is a pointer to frequency, freq range from 1 to 156250
+ * @param[in]      duty       is a pointer to duty radio, duty range from 0 to 255
+ *
+ * @retval         None
+ */
+void tls_pwm_get_info(u8 channel, u32 *freq, u8 *duty);
 /**
  * @}
  */

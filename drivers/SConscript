@@ -7,7 +7,11 @@ objs = []
 src = Split('''
 	board.c
 	drv_uart.c
+    pin_map.c
 	''')
+
+if GetDepend(['RT_USING_ADC']):
+	src += ['drv_adc.c']
 
 if GetDepend(['RT_USING_LWIP']):
 	src += ['drv_wifi.c']
@@ -32,6 +36,9 @@ if GetDepend('RT_USING_I2C'):
 
 if GetDepend('RT_USING_SPI'):
     src += ['drv_spi.c']
+
+if GetDepend(['RT_USING_W25QXX']) or GetDepend(['RT_USING_SFUD']):
+    src += ['drv_spiflash.c']
 
 if GetDepend('RT_USING_UIENGINE'):
     src += ['drv_lcd.c']

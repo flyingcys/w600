@@ -10,6 +10,7 @@
 #ifndef WM_IO_H
 #define WM_IO_H
 
+#include "wm_type_def.h"
 
 #define TLS_IO_AB_OFFSET  (0x40011200 - 0x40010C00)
 

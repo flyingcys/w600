@@ -9,112 +9,166 @@
 
 #include <rtthread.h>
 #include <rtdevice.h>
+#include <rthw.h>
 
+#include "pin_map.h"
 #include "drv_pin.h"
 
-static void hw_pin_mode(struct rt_device *device, rt_base_t pin, rt_base_t mode)
+#ifdef RT_USING_PIN
+
+static void wm_pin_mode(struct rt_device *device, rt_base_t pin, rt_base_t mode)
 {
-
-    if(mode == PIN_MODE_INPUT)
+    rt_int16_t gpio_pin;
+    gpio_pin = wm_get_pin(pin);
+    if (gpio_pin < 1)
     {
-//        tls_gpio_cfg(, WM_GPIO_DIR_INPUT, WM_GPIO_ATTR_FLOATING);
+        return;
     }
-    else if(mode == PIN_MODE_INPUT_PULLUP)
+    if (mode == PIN_MODE_INPUT)
     {
-
+        tls_gpio_cfg((enum tls_io_name)gpio_pin, WM_GPIO_DIR_INPUT, WM_GPIO_ATTR_FLOATING);
     }
-    else if(mode == PIN_MODE_INPUT_PULLDOWN)
+    else if (mode == PIN_MODE_INPUT_PULLUP)
     {
-
+        tls_gpio_cfg((enum tls_io_name)gpio_pin, WM_GPIO_DIR_INPUT, WM_GPIO_ATTR_PULLHIGH);
     }
-    else if(mode == PIN_MODE_OUTPUT)
+    else if (mode == PIN_MODE_INPUT_PULLDOWN)
     {
-//        tls_gpio_cfg(, );
+        tls_gpio_cfg((enum tls_io_name)gpio_pin, WM_GPIO_DIR_INPUT, WM_GPIO_ATTR_PULLLOW);
+    }
+    else if (mode == PIN_MODE_OUTPUT)
+    {
+        tls_gpio_cfg((enum tls_io_name)gpio_pin, WM_GPIO_DIR_OUTPUT, WM_GPIO_ATTR_PULLHIGH);
     }
     return;
 }
 
-static void hw_pin_write(struct rt_device *device, rt_base_t pin, rt_base_t value)
+static void wm_pin_write(struct rt_device *device, rt_base_t pin, rt_base_t value)
 {
-    #if 0
-    const struct pin_index *index;
-
-    index = get_pin(pin);
-    if(index == RT_NULL)
+    rt_int16_t gpio_pin;
+    gpio_pin = wm_get_pin(pin);
+    if (gpio_pin < 1)
     {
-
+        return;
     }
-    #endif
-    tls_gpio_write(WM_IO_PB_18, value);
+    tls_gpio_write((enum tls_io_name)gpio_pin, value);
     return;
 }
 
-static int hw_pin_read(struct rt_device *device, rt_base_t pin)
+static int wm_pin_read(struct rt_device *device, rt_base_t pin)
 {
-    int value;
-    #if 0
-    const struct pin_index *index;
-
-    value = PIN_LOW;
-    
-    index = get_pin(pin);
-    if(index == RT_NULL)
+    rt_int16_t gpio_pin;
+    gpio_pin = wm_get_pin(pin);
+    if (gpio_pin < 1)
     {
-        return value;
+        return PIN_LOW;
     }
-    #endif
-    value = tls_gpio_read(WM_IO_PB_18);
-    return value;
+    return tls_gpio_read((enum tls_io_name)gpio_pin);
 }
 
-static rt_err_t hw_pin_attach_irq(struct rt_device *device, rt_int32_t pin,
-       rt_uint32_t mode, void (*hdr)(void *args), void *args)
+static rt_err_t wm_pin_attach_irq(struct rt_device *device, rt_int32_t pin,
+                                  rt_uint32_t mode, void (*hdr)(void *args), void *args)
 {
-    return RT_EOK;
-}
+    rt_int16_t gpio_pin;
+    rt_base_t level;
 
-static rt_err_t hw_pin_detach_irq(struct rt_device *device, rt_int32_t pin)
-{
-    return RT_EOK;
-}
-
-static rt_err_t hw_pin_irq_enable(struct rt_device *device, rt_base_t pin, rt_uint32_t enabled)
-{
-#if 0
-    if(enabled == PIN_IRQ_ENABLE)
+    gpio_pin = wm_get_pin(pin);
+    if (gpio_pin < 1)
     {
-        switch()
-        {
-        case :
-            tls_gpio_irq_enable(gpio_pin, WM_GPIO_IRQ_TRIG_RISING_EDGE);
-            break;
-
-        case :
-            break;
-        }
+        return RT_ENOSYS;
     }
 
-	tls_gpio_isr_register(gpio_pin, demo_gpio_isr_callback, NULL);
-    #endif
+    level = rt_hw_interrupt_disable();
+    /*irq mode set*/
+    switch (mode)
+    {
+    case PIN_IRQ_MODE_RISING:
+        tls_gpio_irq_cfg((enum tls_io_name)gpio_pin, WM_GPIO_IRQ_TRIG_RISING_EDGE);
+        break;
+    case PIN_IRQ_MODE_FALLING:
+        tls_gpio_irq_cfg((enum tls_io_name)gpio_pin, WM_GPIO_IRQ_TRIG_FALLING_EDGE);
+        break;
+    case PIN_IRQ_MODE_RISING_FALLING:
+        tls_gpio_irq_cfg((enum tls_io_name)gpio_pin, WM_GPIO_IRQ_TRIG_DOUBLE_EDGE);
+        break;
+    case PIN_IRQ_MODE_HIGH_LEVEL:
+        tls_gpio_irq_cfg((enum tls_io_name)gpio_pin, WM_GPIO_IRQ_TRIG_HIGH_LEVEL);
+        break;
+    case PIN_IRQ_MODE_LOW_LEVEL:
+        tls_gpio_irq_cfg((enum tls_io_name)gpio_pin, WM_GPIO_IRQ_TRIG_LOW_LEVEL);
+        break;
+    default:
+        rt_hw_interrupt_enable(level);
+        return RT_ENOSYS;
+    }
+
+    tls_gpio_isr_register((enum tls_io_name)gpio_pin, hdr, args);
+    rt_hw_interrupt_enable(level);
     return RT_EOK;
 }
 
-struct rt_pin_ops _hw_pin_ops =
+static rt_err_t wm_pin_detach_irq(struct rt_device *device, rt_int32_t pin)
 {
-    hw_pin_mode,
-    hw_pin_write,
-    hw_pin_read,
+    return RT_EOK;
+}
 
-    hw_pin_attach_irq,
-    hw_pin_detach_irq,
-    hw_pin_irq_enable
-};
-
-int hw_pin_init(void)
+static rt_err_t wm_pin_irq_enable(struct rt_device *device, rt_base_t pin, rt_uint32_t enabled)
 {
-    int ret = rt_device_pin_register("pin", &_hw_pin_ops , RT_NULL);
+    rt_int16_t gpio_pin;
+    rt_base_t level;
+    gpio_pin = wm_get_pin(pin);
+    if (gpio_pin < 1)
+    {
+        return RT_ENOSYS;
+    }
+    level = rt_hw_interrupt_disable();
+    if (enabled == PIN_IRQ_ENABLE)
+    {
+        tls_clr_gpio_irq_status((enum tls_io_name)gpio_pin);
+        tls_gpio_irq_enable((enum tls_io_name)gpio_pin);
+        rt_hw_interrupt_enable(level);
+        return RT_EOK;
+    }
+    else if (enabled == PIN_IRQ_DISABLE)
+    {
+        tls_gpio_irq_disable((enum tls_io_name)gpio_pin);
+        rt_hw_interrupt_enable(level);
+        return RT_EOK;
+    }
+    else
+    {
+        rt_hw_interrupt_enable(level);
+        return RT_ENOSYS;
+    }
+}
 
+struct rt_pin_ops _wm_pin_ops =
+    {
+        wm_pin_mode,
+        wm_pin_write,
+        wm_pin_read,
+        wm_pin_attach_irq,
+        wm_pin_detach_irq,
+        wm_pin_irq_enable};
+
+int wm_pin_init(void)
+{
+    int ret = rt_device_pin_register("pin", &_wm_pin_ops, RT_NULL);
     return ret;
 }
-INIT_BOARD_EXPORT(hw_pin_init);
+INIT_BOARD_EXPORT(wm_pin_init);
 
+void WM_GPIOA_IRQHandler(void)
+{
+    rt_interrupt_enter();
+    GPIOA_IRQHandler();
+    rt_interrupt_leave();
+}
+
+void WM_GPIOB_IRQHandler(void)
+{
+    rt_interrupt_enter();
+    GPIOB_IRQHandler();
+    rt_interrupt_leave();
+}
+#endif
