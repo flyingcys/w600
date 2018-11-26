@@ -56,7 +56,7 @@ main()
 	shell_do_cmd cp ../../Bin/version.txt ../../Bin/version_bk.txt
 	cp ../../Bin/${SOBJ}.bin ../../Bin/${SOBJ}.bin.bk
 	shell_do_cmd python wm_gzip.py "../../Bin/${SOBJ}.bin"
-	mv ../../Bin/${SOBJ}.bin.bk ../../Bin/${SOBJ}.bin
+	cp ../../Bin/${SOBJ}.bin.bk ../../Bin/${SOBJ}.bin
 	shell_do_cmd ./${MKIMG} "../../Bin/${SOBJ}.bin" "../../Bin/${TARGET}.img" 0 0 "../../Bin/version.txt" 90000 10100
 	shell_do_cmd ./${MKIMG} "../../Bin/${SOBJ}.bin.gz" "../../Bin/${TARGET}_GZ.img" 0 1 "../../Bin/version.txt" 90000 10100 "../../Bin/${SOBJ}.bin" 
 	shell_do_cmd ./${MKIMG} "../../Bin/${SOBJ}.bin" "../../Bin/${TARGET}_SEC.img" 0 0 "../../Bin/version.txt" 90000 10100

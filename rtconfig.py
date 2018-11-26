@@ -54,7 +54,8 @@ if PLATFORM == 'gcc':
         CFLAGS += ' -O2'
 
     POST_ACTION = OBJCPY + ' -O binary -S -g -x -X -R .sbss -R .bss -R .reginfo -R .stack $TARGET rtthread.bin\n'
-#    POST_ACTION += os.system('sh createimg.sh')
+    POST_ACTION = SIZE + ' $TARGET \n'
+    os.system('sh createimg.sh')
 
 
 elif PLATFORM == 'armcc':
