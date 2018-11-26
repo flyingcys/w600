@@ -55,7 +55,7 @@ static rt_err_t wm_pwm_control(struct rt_device_pwm *device, int cmd, void *arg)
         else
             return RT_ERROR;
     case PWM_CMD_GET:
-        tls_pwm_get_info(channel, (u32_t *)&freq_hz, &duty);
+        tls_pwm_get_info(channel, (uint32_t *)&freq_hz, &duty);
         if(freq_hz)
         {
             configuration->period = 1000000 / freq_hz;
